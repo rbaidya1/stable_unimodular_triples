@@ -1,0 +1,39 @@
+def degrevlex_tridegree(n):
+    a=2
+    while binomial(a,3)<n:
+        a=a+1
+    a=a-1
+    b=1
+    while binomial(a,3)+binomial(b,2)<n:
+        b=b+1
+    b=b-1
+    c=n-binomial(a,3)-binomial(b,2)
+    return matrix(ZZ,1,3,[c-1,b-c,a-b-1])
+
+def degrevlex_tridegrees(m,n):
+    snake=matrix(ZZ,0,3,[])
+    k=m
+    while k<=n:
+        snake= snake.stack(degrevlex_tridegree(k))
+        k=k+1
+    return snake
+
+def dpxyz(prime, omicron):
+	R.<x,y,z> = PolynomialRing(GF(prime))
+	c = omicron.digits(base = prime)
+	d = R(0)
+	e = 0
+	while e < len(c):
+		t = degrevlex_tridegree(e + 1)
+		d = d + R(c[e]) * x ^ (t[0][0]) * y ^ (t[0][1]) * z ^ (t[0][2])
+		e = e + 1
+	return d
+
+def dpxyzs(prime,p,q):
+	R.<x,y,z> = PolynomialRing(GF(prime))
+	r = matrix(R,0,1,[])
+	s = p
+	while s <= q:
+		r = r.stack(matrix(R,1,1,[dpxyz(prime,s)]))
+		s = s + 1
+	return r

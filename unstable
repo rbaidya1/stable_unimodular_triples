@@ -1,0 +1,79 @@
+def tri(d):
+    a = 2
+    while binomial(a, 3) < d:
+    	a = a + 1
+    a = a - 1
+    b = 1
+    while binomial(a, 3) + binomial(b, 2) < d:
+        b = b + 1
+    b = b - 1
+    c = d - binomial(a, 3) - binomial(b, 2)
+    return [c-1, b-c, a-b-1]
+
+def poly(prime, m):
+	R.<x, y, z> = PolynomialRing(GF(prime))
+	n = m.digits(base = prime)
+	p = R(0)
+	q = 0
+	while q < len(n):
+		r = tri(q + 1)
+		p = p + R(n[q]) * x ^ (r[0]) * y ^ (r[1]) * z ^ (r[2])
+		q = q + 1
+	return p
+
+def uns(prime, s, t):
+	R.<x, y, z> = PolynomialRing(GF(prime))
+	count = 0
+	ss = binomial(s + 3, 3)
+	tt = binomial(t + 3, 3)
+	u = 0
+	while u < (ss + 1) ^ 3:
+		if u == 0:
+			ff = 0 
+		else:
+			ff = u.digits(base = ss + 1)[0]
+		if u < ss + 1:
+			gg = 0
+		else:
+			gg = u.digits(base = ss + 1)[1]
+		if u < (ss + 1) ^ 2:
+			hh = 0
+		else:
+			hh = u.digits(base = ss + 1)[2]
+		f = poly(prime, ff)
+		g = poly(prime, gg)
+		h = poly(prime, hh)
+		if R(1) in R*[f, g, h]:
+			v = 0
+			w = True
+			while v < (tt + 1) ^ 2:
+				if v == 0:
+					ii = 0 
+				else:
+					ii = v.digits(base = tt + 1)[0]
+				if v < tt + 1:
+					jj = 0
+				else:
+					jj = v.digits(base = tt + 1)[1]
+				i = poly(prime, ii)
+				j = poly(prime, jj)
+				if R(1) in R * [f + i * h, g + j * h]:
+					v = (tt + 1) ^ 2
+					w = False
+				else:
+					v = v + 1
+			if w == True:
+				# print(matrix(R, 3, 1, [[f], [g], [h]])) #
+				# print(' ') #
+				count = count + 1
+		u = u + 1
+	return count
+
+def prime_check(end, maxdeg):
+	point = 0
+	sum = 0
+	while point <= end:
+		if uns(Primes().unrank(point), maxdeg, maxdeg) != 0:
+			sum = sum + 1
+		point = point + 1
+	return sum

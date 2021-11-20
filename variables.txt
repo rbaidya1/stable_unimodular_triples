@@ -1,0 +1,26 @@
+variables
+
+a:  
+b:  sum of binomial coefficients
+c:  coefficient of an entry of a unimodular row
+d:  degree of a monomial with respect to a given variable
+e:  log_p(q)
+f:  
+g:  
+h:  
+i:  
+j:  
+k:  
+m:  monomial number
+n:  polynomial number
+p:  characteristic of ring
+q:  size of coefficient field
+r:  number of variables
+s:  maximum possible total degree of an entry of a unimodular row
+t:  maximum possible total degree of a coefficient of un 
+u:  entry of a unimodular row
+v:  coefficient of un in a reduced unimodular row
+w:  
+x:  variable
+y:  monomial with a given monomial number
+z:  polynomial with a given polynomial number
